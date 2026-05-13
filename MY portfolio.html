@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #f2f2f2;
+    overflow-x: hidden;
+    transition: 0.3s;
+}
+
+body.dark {
+    background: #0f0f0f;
+    color: white;
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.header {
+    background: black;
+    color: white;
+    text-align: center;
+    padding: 15px;
+}
+
+.nav {
+    display: flex;
+    justify-content: center;
+    background: #222;
+    position: sticky;
+    top: 0;
+}
+
+.nav a {
+    color: white;
+    padding: 12px;
+    text-decoration: none;
+}
+
+.nav a:hover {
+    background: red;
+}
+
+.toggle {
+    text-align: center;
+    margin: 10px;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+}
+
+body.dark .container {
+    background: #1c1c1c;
+}
+
+.section {
+    margin-top: 25px;
+}
+
+.tag {
+    display: inline-block;
+    background: #ddd;
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+body.dark .tag {
+    background: #333;
+}
+
+.card {
+    background: #eee;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+body.dark .card {
+    background: #2a2a2a;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px;
+    background: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: green;
+    color: white;
+    padding: 10px;
+    display: none;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+
+<div class="header">
+    <h1>PORTFOLIO</h1>
+</div>
+
+<div class="toggle">
+    <button onclick="toggleDark()">Toggle Dark Mode</button>
+</div>
+
+<div class="nav">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+</div>
+
+<div class="container">
+
+<div id="home" class="section">
+    <h2>Munzhedzi Zwezwotronics</h2>
+    <p>Student | Developer | Innovator</p>
+</div>
+
+<div id="about" class="section">
+<h2>About Me</h2>
+<p>
+My name is Munzhedzi Zwezwotronics, a passionate developer from Polokwane.  
+I’m currently a student working on full stack development and building real-world systems.  
+I enjoy solving problems with C++, Java, and JavaScript, and I’m constantly learning new technologies.  
+Beyond coding, I’m interested in university rankings, consumer electronics, and sports games.  
+My goal is to become a future engineer and innovator who creates impactful solutions for communities.
+</p>
+</div>
+
+<div id="skills" class="section">
+<h2>Skills</h2>
+<span class="tag">C++</span>
+<span class="tag">HTML</span>
+<span class="tag">Java</span>
+<span class="tag">JavaScript</span>
+</div>
+
+<div id="projects" class="section">
+<h2>Projects</h2>
+<div class="card">Student Management System</div>
+<div class="card">University Application System</div>
+</div>
+
+<div id="contact" class="section">
+<h2>Contact</h2>
+<input id="name" placeholder="Name">
+<input id="email" placeholder="Email">
+<textarea id="message" placeholder="Message"></textarea>
+<button onclick="sendMessage()">Send</button>
+</div>
+
+</div>
+
+<div class="toast" id="toast">Message Sent!</div>
+
+<script>
+
+// DARK MODE FIX
+function toggleDark(){
+    document.body.classList.toggle("dark");
+}
+
+// CONTACT
+function sendMessage(){
+    let n = document.getElementById("name").value;
+    let e = document.getElementById("email").value;
+    let m = document.getElementById("message").value;
+
+    if(n && e && m){
+        document.getElementById("toast").style.display = "block";
+        setTimeout(()=>document.getElementById("toast").style.display="none",2000);
+    } else {
+        alert("Fill all fields");
+    }
+}
+
+// PARTICLES FIX
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.addEventListener("resize", resize);
+resize();
+
+let dots = [];
+for(let i=0;i<60;i++){
+    dots.push({
+        x: Math.random()*canvas.width,
+        y: Math.random()*canvas.height
+    });
+}
+
+function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = "gray";
+
+    dots.forEach(d=>{
+        ctx.beginPath();
+        ctx.arc(d.x,d.y,2,0,Math.PI*2);
+        ctx.fill();
+        d.y += 0.5;
+        if(d.y > canvas.height) d.y = 0;
+    });
+
+    requestAnimationFrame(animate);
+}
+animate();
+
+</script>
+
+</body>
+</html>
